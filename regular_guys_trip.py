@@ -59,15 +59,6 @@ st.markdown("""
         box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         margin-bottom: 12px;
     }
-
-    .config-box {
-        background-color: #FFFFFF;
-        border: 1px solid #D2D6DC;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.04);
-        margin-bottom: 24px;
-    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -99,10 +90,7 @@ IMG_TRAIL_12 = "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?aut
 IMG_TRAIL_13 = "https://images.unsplash.com/photo-1511497584788-87676104235f?auto=format&fit=crop&w=600&q=80"
 IMG_TRAIL_14 = "https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=600&q=80"
 
-# GIF FOR THE SPANISH INQUISITION TAB
-GIF_SPANISH_INQUISITION = "https://media.giphy.com/media/y5W98cY6RIKF9FsYv7/giphy.gif"
-
-# --- EXPANDED DATA REGISTRY ---
+# --- DATA REGISTRY ---
 PARK_DATA = {
     "Grand Teton": {
         "state": "Wyoming",
@@ -781,7 +769,7 @@ with st.sidebar:
     *Window:* Saturday Arrival to Sunday Departure (7 Nights).
     """)
     st.markdown("---")
-    st.caption("All multi-criteria weights and lodging selections are configured on the main page.")
+    st.caption("All multi-criteria weights and lodging selections are configured directly on the main page.")
 
 # --- APP HEADER & VERBOSE APP DESCRIPTION ---
 st.title("🌲 National Park Expedition, Safety & Logistics Optimizer")
@@ -798,46 +786,52 @@ This application acts as a comprehensive decision matrix. It models:
 
 st.markdown("---")
 
-# --- MAIN PAGE CONTROLS: LODGING STRATEGY & WEIGHT CRITERIA ---
+# --- MAIN PAGE CONTROLS: LODGING STRATEGY & WEIGHT CRITERIA (MOBILE RESPONSIVE) ---
 st.subheader("⚙️ 1. Trip Strategy & Optimization Controls")
 st.markdown("""
-Adjust the group's accommodation strategy and multi-factor weight priorities below. 
-The rankings table and underlying financial models update in real time based on your selections.
+Adjust the crew's accommodation model and scoring priorities below. 
+The master rankings table, financial calculations, and charts update immediately.
 """)
 
-with st.container():
-    col_strat, col_weights = st.columns([1, 2], gap="large")
+# ACCOMMODATION MODEL (Full width for mobile touch targets)
+st.markdown("#### Accommodations Model")
+split_strategy = st.radio(
+    "Select Lodging Allocation:",
+    [
+        "50/50 Split (3N Tent / 4N Lodge)",
+        "All Lodge (7 nights)",
+        "All Tent Camping (7 nights)"
+    ],
+    index=0,
+    horizontal=True,
+    help="50/50 split allocates Sat-Tue nights to tents and Wed-Sun nights to a gateway lodge/cabin."
+)
 
-    with col_strat:
-        st.markdown("#### Accommodations Model")
-        split_strategy = st.radio(
-            "Select Lodging Allocation:",
-            [
-                "50/50 Split (3N Tent / 4N Lodge)",
-                "All Lodge (7 nights)",
-                "All Tent Camping (7 nights)"
-            ],
-            index=0,
-            help="The 50/50 split allocates Sat-Tue nights to tents (frontcountry or backpacking) and Wed-Sun nights to a shared gateway lodge/cabin for hot showers and summit recovery."
-        )
-        st.caption("""
-        * **50/50 Split:** Frontcountry camping early when morale is high; modern cabin comfort for the latter half.
-        * **All Lodge:** Maximum physical comfort and group kitchen space every night (higher total spend).
-        * **All Tent:** Maximum budget savings and immersion under the stars (requires full camping gear rentals/baggage).
-        """)
+st.caption("""
+* **50/50 Split:** Frontcountry/trail camping early when energy is high; comfortable beds & hot showers for recovery later in the week.
+* **All Lodge:** Maximum group recovery and amenities every night (highest total cost).
+* **All Tent:** Maximum immersion and budget efficiency (requires hauling or renting camping equipment).
+""")
 
-    with col_weights:
-        st.markdown("#### Multi-Criteria Scoring Weights")
-        st.caption("Adjust sliders to match the crew's priorities (0.0 = Ignore, 1.0 = Maximum Priority):")
-        w_c1, w_c2 = st.columns(2)
-        with w_c1:
-            w_cost = st.slider("Cost Efficiency / Low Budget", 0.0, 1.0, 0.25, 0.05)
-            w_drive = st.slider("Airport Proximity (Low Drive Time)", 0.0, 1.0, 0.15, 0.05)
-            w_scenery = st.slider("Scenery & Alpine Grandeur", 0.0, 1.0, 0.25, 0.05)
-        with w_c2:
-            w_june = st.slider("June Trail Viability (Snow-Free)", 0.0, 1.0, 0.15, 0.05)
-            w_weather = st.slider("Mild Temps & Clear Skies (Fewer Clouds)", 0.0, 1.0, 0.10, 0.05)
-            w_safety = st.slider("Wildlife Safety (Low Bear/Moose Peril)", 0.0, 1.0, 0.10, 0.05)
+st.markdown("---")
+
+# MULTI-CRITERIA SLIDERS (Flat root-level columns that wrap cleanly on mobile viewports)
+st.markdown("#### Multi-Criteria Scoring Weights")
+st.caption("Adjust sliders (0.0 = Ignore, 1.0 = Max Priority). On mobile screens, these will stack cleanly:")
+
+col_w1, col_w2, col_w3 = st.columns(3)
+
+with col_w1:
+    w_cost = st.slider("Cost Efficiency / Low Budget", 0.0, 1.0, 0.25, 0.05, key="w_cost")
+    w_drive = st.slider("Airport Proximity (Low Drive)", 0.0, 1.0, 0.15, 0.05, key="w_drive")
+
+with col_w2:
+    w_scenery = st.slider("Scenery & Alpine Grandeur", 0.0, 1.0, 0.25, 0.05, key="w_scenery")
+    w_june = st.slider("June Trail Viability (Snow-Free)", 0.0, 1.0, 0.15, 0.05, key="w_june")
+
+with col_w3:
+    w_weather = st.slider("Mild Temps & Clear Skies", 0.0, 1.0, 0.10, 0.05, key="w_weather")
+    w_safety = st.slider("Wildlife Safety (Low Risk)", 0.0, 1.0, 0.10, 0.05, key="w_safety")
 
 st.markdown("---")
 
@@ -846,7 +840,6 @@ records = []
 for name, data in PARK_DATA.items():
     _, tot, mn, fl_skew, shared_per_guy, lodging_tot = compute_complete_costs(data, split_strategy)
 
-    # 0 to 10 scale normalizations
     cost_score = max(0.0, 10.0 - ((mn - 600.0) / 120.0))
     drive_score = max(0.0, 10.0 - (data["drive_hrs"] * 2.0))
     
@@ -993,7 +986,7 @@ with tab_wildlife:
 with tab_weather:
     st.subheader("Climatological Viability: Thermal Comfort & Mountain Perils")
     st.markdown("""
-    June mountain weather is notoriously fickle. The ideal window for 39-year-old guys hiking 6 to 10 miles with 1,000+ feet of elevation gain is **moderate temperatures (60°F–78°F)** with low humidity and **clear or low-cloud skies** to ensure panoramic views from the summits.
+    June mountain weather is notoriously fickle. The ideal window for regular 39-year-old guys hiking 6 to 10 miles with 1,000+ feet of elevation gain is **moderate temperatures (60°F–78°F)** with low humidity and **clear or low-cloud skies** to ensure panoramic views from the summits.
     """)
 
     col_wt1, col_wt2 = st.columns(2)
@@ -1082,7 +1075,7 @@ with tab_flights:
 with tab_hikes:
     st.subheader("Curated 3-Hike Package (Saturday Arrival to Sunday Departure)")
     st.markdown("""
-    These three routes are designed specifically for active 39-year-olds. They are sequenced across the week to factor in airport drive recovery, gradual elevation acclimation, and an ambitious summit push.
+    These three routes are designed specifically for active, regular 39-year-olds. They are sequenced across the week to factor in airport drive recovery, gradual elevation acclimation, and an ambitious summit push.
     
     *All three hikes are designed as vigorous day treks (carrying daypacks with water, lunch, and layers)*, but routes marked **Backpack Overnight Available** can optionally be converted into a 1-to-2 night wilderness loop if the crew wants backcountry trail camping.
     """)
@@ -1107,19 +1100,74 @@ with tab_hikes:
 with tab_inquisition:
     st.subheader("⚠️ ATTENTION TRAVELERS!")
     st.markdown("""
-    <h2 style='color: #B85D19 !important; text-align: center;'>
+    <h2 style='color: #B85D19 !important; text-align: center; margin-bottom: 20px;'>
         NOBODY EXPECTS THE SPANISH INQUISITION!
     </h2>
     """, unsafe_allow_html=True)
     
-    col_py1, col_py2, col_py3 = st.columns([1, 2, 1])
+    col_py1, col_py2, col_py3 = st.columns([1, 3, 1])
     with col_py2:
-        st.image(
-            GIF_SPANISH_INQUISITION,
-            caption="Cardinal Biggles, Cardinal Fang, and Cardinal Ximénez arriving to inspect your hiking itinerary.",
-            use_container_width=True
-        )
+        svg_cartoon = """
+        <div style="display: flex; justify-content: center; margin-bottom: 16px;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 450" width="100%" height="auto" style="border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.25); background: #2B1810;">
+            <rect width="700" height="450" fill="#2B1810"/>
+            <rect x="0" y="320" width="700" height="130" fill="#1C100B"/>
+            <path d="M120 0 L120 450 M350 0 L350 450 M580 0 L580 450" stroke="#3D2418" stroke-width="3"/>
+
+            <g transform="translate(100, 110)">
+                <path d="M-50 240 L-20 60 L40 60 L70 240 Z" fill="#B31B1B"/>
+                <path d="M-10 60 L10 120 L30 60 Z" fill="#801111"/>
+                <circle cx="10" cy="20" r="30" fill="#FAD02C"/>
+                <path d="M-20 15 Q10 -15 40 15 L42 28 Q10 0 -22 28 Z" fill="#4A2E18"/>
+                <circle cx="-3" cy="20" r="10" fill="#333" stroke="#D4AF37" stroke-width="3"/>
+                <circle cx="23" cy="20" r="10" fill="#333" stroke="#D4AF37" stroke-width="3"/>
+                <circle cx="-3" cy="20" r="5" fill="#87CEEB"/>
+                <circle cx="23" cy="20" r="5" fill="#87CEEB"/>
+                <path d="M-2 40 Q10 50 22 40" stroke="#000" stroke-width="3" fill="none"/>
+            </g>
+
+            <g transform="translate(500, 110)">
+                <path d="M-50 240 L-20 60 L40 60 L70 240 Z" fill="#B31B1B"/>
+                <circle cx="10" cy="20" r="30" fill="#F5CBA7"/>
+                <ellipse cx="10" cy="0" rx="45" ry="12" fill="#801111"/>
+                <path d="M-15 0 Q10 -25 35 0 Z" fill="#991515"/>
+                <circle cx="-2" cy="18" r="6" fill="#FFF"/><circle cx="-2" cy="18" r="3" fill="#000"/>
+                <circle cx="22" cy="18" r="6" fill="#FFF"/><circle cx="22" cy="18" r="3" fill="#000"/>
+                <ellipse cx="10" cy="36" rx="8" ry="10" fill="#000"/>
+            </g>
+
+            <g transform="translate(300, 70)">
+                <path d="M-65 280 L-30 65 L80 65 L115 280 Z" fill="#D32F2F"/>
+                <path d="M0 65 L25 150 L50 65 Z" fill="#9A0007"/>
+                <path d="M25 140 L25 190 M15 155 L35 155" stroke="#FFD700" stroke-width="4"/>
+                <circle cx="25" cy="20" r="35" fill="#FAD02C"/>
+                <ellipse cx="25" cy="-8" rx="85" ry="20" fill="#9A0007"/>
+                <path d="M-25 -8 Q25 -50 75 -8 Z" fill="#D32F2F"/>
+                <path d="M5 8 L20 16 M45 8 L30 16" stroke="#000" stroke-width="4"/>
+                <circle cx="12" cy="20" r="5" fill="#FFF"/><circle cx="13" cy="20" r="2.5" fill="#000"/>
+                <circle cx="38" cy="20" r="5" fill="#FFF"/><circle cx="37" cy="20" r="2.5" fill="#000"/>
+                <path d="M5 32 Q25 25 45 32 Q25 42 5 32 Z" fill="#2E1805"/>
+                <path d="M12 36 Q25 58 38 36 Z" fill="#670000"/>
+                <path d="M-25 90 L-80 50 L-130 50" stroke="#D32F2F" stroke-width="26" stroke-linecap="round"/>
+                <circle cx="-135" cy="50" r="14" fill="#FAD02C"/>
+                <path d="M-135 50 L-175 50" stroke="#FAD02C" stroke-width="8" stroke-linecap="round"/>
+            </g>
+
+            <g transform="rotate(-11 350 225)">
+                <rect x="25" y="195" width="650" height="74" fill="rgba(0,0,0,0.6)" rx="8"/>
+                <rect x="20" y="188" width="650" height="70" fill="#E65100" stroke="#FFD54F" stroke-width="4" rx="8"/>
+                <rect x="20" y="188" width="20" height="70" fill="#FFD54F"/>
+                <rect x="650" y="188" width="20" height="70" fill="#FFD54F"/>
+                <text x="345" y="235" font-family="'Impact', 'Arial Black', sans-serif" font-size="31" fill="#FFFFFF" text-anchor="middle" letter-spacing="2" stroke="#000000" stroke-width="1.5">
+                    THE ORIGINAL WAS COPYRIGHT PROTECTED
+                </text>
+            </g>
+        </svg>
+        </div>
+        """
+        st.markdown(svg_cartoon, unsafe_allow_html=True)
+
         st.markdown("""
         > *"Our chief weapon is surprise! Surprise and fear... fear and surprise... our two weapons are fear and surprise... and ruthless efficiency! Our three weapons are fear, surprise, and ruthless efficiency... and an almost fanatical devotion to the Pope!"*
         """)
-        st.caption("Now that you've confessed your hiking plans, please return to selecting your national park.")
+        st.caption("Now that the cardinals have completed their audit, please return to selecting your national park.")
