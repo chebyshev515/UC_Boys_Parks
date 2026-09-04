@@ -753,7 +753,7 @@ with st.sidebar:
         current_user = st.text_input("Enter your name:", value="Guest")
 
 # --- APP HEADER & DESCRIPTION ---
-st.title("🌲 National Park Expedition & Consensus Engine")
+st.title("🌲 National Park Expedition & Secret Birthday Trip")
 st.markdown("""
 ### Decision Engine for Just Regular 39-Year-Old Guys
 Planning an annual weeklong expedition for **five just regular 39-year-old guys** requires balancing ambitious alpine ambitions against cold logistical realities. The month of **June** is a dramatic transitional season across North America's premier wilderness corridors. At high elevations in the Rockies, North Cascades, and Pacific Northwest, winter snowpack is actively thawing, waterfalls are discharging at historic peak volumes, and alpine passes above 8,000–9,000 feet often demand microspikes or route pivots. Concurrently, wildlife emerges into lower river meadows: **grizzly sows forage with newborn cubs** and **cow moose fiercely defend newborn calves in willow thickets**.
