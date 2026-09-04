@@ -2,6 +2,9 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from scipy.stats import skew
+import json
+import os
+from datetime import datetime
 
 # --- PAGE CONFIGURATION ---
 st.set_page_config(
@@ -10,6 +13,25 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="collapsed"
 )
+
+# --- PERSISTENCE ENGINE (VOTES & COMMENTS STORED TO JSON) ---
+DATA_FILE = "trip_records.json"
+
+def load_data():
+    if not os.path.exists(DATA_FILE):
+        return {"votes": {}, "comments": []}
+    try:
+        with open(DATA_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception:
+        return {"votes": {}, "comments": []}
+
+def save_data(data):
+    try:
+        with open(DATA_FILE, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2)
+    except Exception as e:
+        st.error(f"Error saving data: {e}")
 
 # --- IMAGE CONSTANTS ---
 IMG_SIDEBAR = "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=600&q=80"
@@ -705,23 +727,33 @@ def compute_complete_costs(park_dict, split_mode):
 
     return traveler_totals, tot, mn, fl_skew, shared_per_guy, lodging_total
 
-# --- SIDEBAR (CONCISE OVERVIEW) ---
+# --- SIDEBAR: CREW IDENTITY & SESSION ---
 with st.sidebar:
     st.image(IMG_SIDEBAR, use_container_width=True)
     st.markdown("### The Crew Roster")
     st.markdown("""
-    **Five just regular 39-year-old guys** on an annual weeklong June mountain expedition.
+    **Five just regular 39-year-old guys** on an annual weeklong June expedition.
     * **Seattle, WA (SEA):** 2 Guys
     * **Chicago, IL (ORD):** 2 Guys
     * **Columbia, MO (COU):** 1 Guy
-    
-    *Window:* Saturday Arrival to Sunday Departure (7 Nights).
     """)
     st.markdown("---")
-    st.caption("All multi-criteria weights and lodging selections are configured on the main page.")
+    
+    # Voter Identity Selector
+    user_roster = [
+        "Seattle Guy #1",
+        "Seattle Guy #2",
+        "Chicago Guy #1",
+        "Chicago Guy #2",
+        "Columbia Guy",
+        "Guest / Other"
+    ]
+    current_user = st.selectbox("Identify Yourself to Vote / Comment:", user_roster)
+    if current_user == "Guest / Other":
+        current_user = st.text_input("Enter your name:", value="Guest")
 
-# --- APP HEADER & VERBOSE APP DESCRIPTION ---
-st.title("🌲 National Park Expedition, Safety & Logistics Optimizer")
+# --- APP HEADER & DESCRIPTION ---
+st.title("🌲 National Park Expedition & Consensus Engine")
 st.markdown("""
 ### Purpose-Built Decision Engine for Just Regular 39-Year-Old Guys
 Planning an annual weeklong expedition for **five just regular 39-year-old guys** requires balancing ambitious alpine ambitions against cold logistical realities. The month of **June** is a dramatic transitional season across North America's premier wilderness corridors. At high elevations in the Rockies, North Cascades, and Pacific Northwest, winter snowpack is actively thawing, waterfalls are discharging at historic peak volumes, and alpine passes above 8,000–9,000 feet often demand microspikes or route pivots. Concurrently, wildlife emerges into lower river meadows: **grizzly sows forage with newborn cubs** and **cow moose fiercely defend newborn calves in willow thickets**.
@@ -731,15 +763,16 @@ This application acts as a comprehensive decision matrix. It models:
 2. **Lodging Feasibility & The 50/50 Strategy:** National park lodges often sell out 6 to 12 months in advance. We calculate realistic booking probabilities in both in-park lodges and nearby gateway communities, alongside frontcountry drive-in tent sites.
 3. **Wildlife Risk vs. Weather Perils:** Quantified odds for bear and moose encounters, thunderstorm flash flooding, and hypothermia vs. extreme heat.
 4. **Curated 3-Hike Packages:** Paced across the week to ensure adequate acclimation, manageable car travel times, and flexible day vs. backcountry overnight potential.
+5. **Ranked-Choice Voting & Discussion Feed:** Submit your personal 1st, 2nd, and 3rd choices to see the live crew standings, and log discussion notes about accommodations or gear.
 """)
 
 st.markdown("---")
 
-# --- MAIN PAGE CONTROLS (UN-NESTED TO GUARANTEE MOBILE RENDERING) ---
+# --- SECTION 1: TRIP STRATEGY & OPTIMIZATION CONTROLS ---
 st.subheader("⚙️ 1. Trip Strategy & Optimization Controls")
 st.markdown("Adjust the crew's accommodation model and scoring priorities below. Everything recalculates instantly.")
 
-# Accommodations Model (Vertical radio prevents mobile button distortion)
+# Accommodations Model
 st.markdown("#### Accommodations Model")
 split_strategy = st.radio(
     "Select Lodging Allocation:",
@@ -760,7 +793,7 @@ st.caption("""
 
 st.markdown("---")
 
-# Multi-Criteria Sliders (Standard stacked widgets prevent slider collapse on mobile)
+# Multi-Criteria Sliders
 st.markdown("#### Multi-Criteria Scoring Weights")
 st.caption("Adjust sliders (0.0 = Ignore, 1.0 = Maximum Priority):")
 
@@ -824,7 +857,7 @@ for name, data in PARK_DATA.items():
 
 df_rankings = pd.DataFrame(records).sort_values(by="Overall Score", ascending=False).reset_index(drop=True)
 
-# --- LEADERBOARD ---
+# --- SECTION 2: MASTER RANKING LEADERBOARD ---
 st.subheader(f"📊 2. Master Ranking Leaderboard — Model: {split_strategy}")
 st.markdown("Sorted in real time by your custom weighted criteria. Inspect how each park balances financial fairness, road transit, and terrain quality.")
 st.dataframe(
@@ -838,8 +871,8 @@ st.dataframe(
 
 st.markdown("---")
 
-# --- DETAIL INSPECTOR (RELIABLE VIEW SELECTOR INSTEAD OF COLLAPSIBLE TABS) ---
-st.subheader("🔍 3. Comprehensive Destination Deep Dive")
+# --- SECTION 3: DESTINATION DEEP DIVE & CREW COLLABORATION ---
+st.subheader("🔍 3. Destination Deep Dive & Crew Collaboration")
 selected_park = st.selectbox("Select a National Park to examine its full operational package:", df_rankings["Park"])
 
 park = PARK_DATA[selected_park]
@@ -849,7 +882,7 @@ cur_score = df_rankings.loc[df_rankings["Park"] == selected_park, "Overall Score
 # Banner Image
 st.image(park["banner_img"], caption=f"{selected_park} National Park — {park['state']}", use_container_width=True)
 
-# Section view selector (100% reliable across all smartphone browsers)
+# Navigation Selector
 st.markdown("#### Choose Inspection Category:")
 view_choice = st.radio(
     "Select Topic to View:",
@@ -860,6 +893,7 @@ view_choice = st.radio(
         "🏕️ Lodging Strategy & Passes",
         "✈️ Cost Distribution & Skewness",
         "🥾 Curated 3-Hike Package",
+        "🗳️ Crew Vote & Comments",
         "⚔️ Spanish Inquisition"
     ],
     index=0
@@ -876,13 +910,11 @@ if view_choice == "📋 Overview & Logistics":
     st.write(f"**June Trail Viability:** `{park['june_viability']} / 10`")
 
     st.markdown(f"""
-    <div class="info-callout">
-        <h4>Operational Synopsis: {selected_park}</h4>
-        <p><b>Gateway Hub:</b> {park['airport']} — Approximately <b>{park['drive_hrs']} hours</b> of highway and mountain driving to reach the park base camp. For five regular 39-year-old guys landing on a Saturday afternoon, this drive time is crucial for grocery restocking, renting bear spray canisters, and reaching camp before dusk.</p>
-        <p><b>Wildlife Viewing Potential:</b> Rated <b>{park['wildlife_score']} / 10</b>. June offers some of the most dynamic animal watching on earth as mammals descend to low-elevation valley bottoms where lush green shoots and newborn forage are concentrated.</p>
-        <p><b>June Ground Conditions Reality:</b> {'High-alpine snowpack remains persistent along passes above 8,000–9,000 feet. You can anticipate thunderous waterfall runoff, snow bridges over glacial streams, and spectacular wildflower emergence along lower cirques. Higher routes may require microspikes and hiking poles.' if park['june_viability'] < 8.5 else 'Favorable, early summer conditions predominate. Snowmelt is substantially complete along primary trails, slot canyon water levels are stabilizing, and passes are widely accessible without technical mountaineering equipment.'}</p>
-    </div>
-    """, unsafe_allow_html=True)
+    **Operational Synopsis: {selected_park}**
+    * **Gateway Hub:** {park['airport']} — Approximately **{park['drive_hrs']} hours** of highway and mountain driving to reach base camp. For five regular 39-year-old guys landing Saturday afternoon, this drive time is crucial for grocery restocking, renting bear spray canisters, and reaching camp before dusk.
+    * **Wildlife Viewing Potential:** Rated **{park['wildlife_score']} / 10**. June offers exceptional viewing as animals descend to low-elevation valley bottoms where lush forage is concentrated.
+    * **June Ground Conditions Reality:** {'High-alpine snowpack remains persistent along passes above 8,000–9,000 feet. You can anticipate thunderous waterfall runoff, snow bridges over glacial streams, and spectacular wildflower emergence along lower cirques. Higher routes may require microspikes and hiking poles.' if park['june_viability'] < 8.5 else 'Favorable, early summer conditions predominate. Snowmelt is substantially complete along primary trails, slot canyon water levels are stabilizing, and passes are widely accessible without technical mountaineering equipment.'}
+    """)
 
 # 2. WILDLIFE RISK
 elif view_choice == "🐻 Wildlife Risk (Bear & Moose)":
@@ -895,25 +927,19 @@ elif view_choice == "🐻 Wildlife Risk (Bear & Moose)":
     """)
 
     st.markdown(f"""
-    <div class="risk-card">
-        <h4>🐻 Bear Conflict Assessment</h4>
-        <p><b>Risk Classification:</b> <code>{park['wildlife_risk']['bear_tier']}</code></p>
-        <p><b>Estimated Attack / Charge Probability:</b> <code>{park['wildlife_risk']['bear_attack_prob']}</code></p>
-    </div>
-    <div class="risk-card">
-        <h4>🫎 Moose Conflict Assessment</h4>
-        <p><b>Risk Classification:</b> <code>{park['wildlife_risk']['moose_tier']}</code></p>
-        <p><b>Estimated Confrontation / Charge Probability:</b> <code>{park['wildlife_risk']['moose_attack_prob']}</code></p>
-    </div>
-    """, unsafe_allow_html=True)
+    * **🐻 Bear Conflict Assessment:**
+      * Risk Classification: `{park['wildlife_risk']['bear_tier']}`
+      * Estimated Attack / Charge Probability: `{park['wildlife_risk']['bear_attack_prob']}`
+    * **🫎 Moose Conflict Assessment:**
+      * Risk Classification: `{park['wildlife_risk']['moose_tier']}`
+      * Estimated Confrontation / Charge Probability: `{park['wildlife_risk']['moose_attack_prob']}`
+    """)
 
-    st.markdown(f"""
-    <div class="info-callout">
-        <b>Mandatory Group Safety Protocols:</b> {park['wildlife_risk']['risk_mitigation']}
-        <br><br>
-        <i>Crew Rule of Thumb:</i> Hike in a tight group of five. The presence of five adult men talking, laughing, and making noise is one of the most effective natural deterrents against surprise wildlife encounters.
-    </div>
-    """, unsafe_allow_html=True)
+    st.info(f"""
+    **Mandatory Group Safety Protocols:** {park['wildlife_risk']['risk_mitigation']}
+    
+    *Crew Rule of Thumb:* Hike in a tight group of five. The presence of five adult men talking and making noise is one of the most effective natural deterrents against surprise wildlife encounters.
+    """)
 
 # 3. WEATHER PERILS & CLIMATE
 elif view_choice == "⛅ Weather Perils & Climate":
@@ -936,13 +962,11 @@ elif view_choice == "🏕️ Lodging Strategy & Passes":
     st.write(f"**Park Vehicle Entrance Pass:** {park['passes_entry']}")
     st.write(f"**Timed-Entry / Corridor Mandates:** {park['timed_entry']}")
 
-    st.markdown(f"""
-    <div class="info-callout">
-        <h4>The 50/50 Split Model: Total Spend for 5 Guys = ${lodging_tot:,.0f} (${lodging_tot/5:,.0f}/person)</h4>
-        <p><b>Phase 1 (Sat-Tue | 3 Nights Tents):</b> Frontcountry campground base camp at ${park['camp_cost_night']}/night.</p>
-        <p><b>Phase 2 (Wed-Sun | 4 Nights Lodge):</b> Gateway vacation rental or lodge at ${park['lodge_cost_night']}/night with full beds, hot showers, and laundry.</p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.success(f"""
+    **The 50/50 Split Model: Total Spend for 5 Guys = ${lodging_tot:,.0f} (${lodging_tot/5:,.0f}/person)**
+    * **Phase 1 (Sat-Tue | 3 Nights Tents):** Frontcountry campground base camp at ${park['camp_cost_night']}/night.
+    * **Phase 2 (Wed-Sun | 4 Nights Lodge):** Gateway vacation rental or lodge at ${park['lodge_cost_night']}/night with full beds, hot showers, and laundry.
+    """)
 
 # 5. FLIGHTS & SKEWNESS
 elif view_choice == "✈️ Cost Distribution & Skewness":
@@ -976,7 +1000,101 @@ elif view_choice == "🥾 Curated 3-Hike Package":
             st.info(f"🥾 Format: {hike['backcountry_permit']}")
         st.divider()
 
-# 7. SPANISH INQUISITION
+# 7. CREW VOTE & COMMENTS (COLLABORATIVE LOGGING & RANKED VOTING)
+elif view_choice == "🗳️ Crew Vote & Comments":
+    st.markdown("### 🗳️ Group Voting & Discussion Log")
+    st.markdown(f"Active User: **{current_user}**")
+    
+    data_store = load_data()
+    all_parks = list(PARK_DATA.keys())
+
+    # SUBSECTION A: SUBMIT A BALLOT
+    st.markdown("#### Cast Your Ranked-Choice Ballot")
+    st.caption("Points allocated: 1st Place = 3 pts, 2nd Place = 2 pts, 3rd Place = 1 pt.")
+
+    with st.form("voting_form"):
+        p1 = st.selectbox("1st Choice (3 Points):", all_parks, index=0)
+        p2 = st.selectbox("2nd Choice (2 Points):", all_parks, index=1)
+        p3 = st.selectbox("3rd Choice (1 Point):", all_parks, index=2)
+        submit_vote = st.form_submit_button("Submit / Update My Ballot")
+
+        if submit_vote:
+            if len({p1, p2, p3}) < 3:
+                st.error("Please pick 3 distinct parks for your ballot!")
+            else:
+                data_store["votes"][current_user] = {
+                    "first": p1,
+                    "second": p2,
+                    "third": p3,
+                    "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M")
+                }
+                save_data(data_store)
+                st.success(f"Ballot recorded for {current_user}!")
+
+    # SUBSECTION B: LIVE STANDINGS
+    st.markdown("---")
+    st.markdown("#### Live Consensus Standings")
+    
+    tally = {p: 0 for p in all_parks}
+    ballots = data_store.get("votes", {})
+
+    for user, ballot in ballots.items():
+        tally[ballot["first"]] += 3
+        tally[ballot["second"]] += 2
+        tally[ballot["third"]] += 1
+
+    df_tally = pd.DataFrame([
+        {"Park": p, "Total Points": pts}
+        for p, pts in tally.items()
+    ]).sort_values(by="Total Points", ascending=False).reset_index(drop=True)
+
+    if sum(tally.values()) == 0:
+        st.info("No votes cast yet. Be the first to cast your ballot above!")
+    else:
+        st.dataframe(df_tally, use_container_width=True, hide_index=True)
+
+    # Ballots Breakdown expander
+    with st.expander("Inspect Individual Ballots Cast:"):
+        if not ballots:
+            st.write("No ballots on file.")
+        for user, b in ballots.items():
+            st.write(f"**{user}** ({b.get('timestamp', '')}): 1st: `{b['first']}`, 2nd: `{b['second']}`, 3rd: `{b['third']}`")
+
+    # SUBSECTION C: GROUP DISCUSSION FEED
+    st.markdown("---")
+    st.markdown("#### Crew Discussion & Notes")
+    st.caption("Leave thoughts on gear, reservations, flight bookings, or hiking routes.")
+
+    with st.form("comment_form"):
+        new_comment = st.text_area("Add a comment:", placeholder="e.g., Flying into Kalispell is pricey for Columbia, but I'm down if we split lodging.")
+        comment_park = st.selectbox("Tag a Specific Park (Optional):", ["General / All Parks"] + all_parks)
+        submit_comment = st.form_submit_button("Post Comment")
+
+        if submit_comment:
+            if new_comment.strip():
+                data_store["comments"].insert(0, {
+                    "author": current_user,
+                    "park": comment_park,
+                    "text": new_comment.strip(),
+                    "timestamp": datetime.now().strftime("%b %d, %Y - %I:%M %p")
+                })
+                save_data(data_store)
+                st.success("Comment posted!")
+            else:
+                st.warning("Please type a comment before posting.")
+
+    # Render Comments Feed
+    st.markdown("##### Recent Messages:")
+    comments = data_store.get("comments", [])
+    if not comments:
+        st.caption("No comments posted yet.")
+    else:
+        for c in comments:
+            st.markdown(f"**{c['author']}** · *{c['timestamp']}* · `Tag: {c.get('park', 'General')}`")
+            st.write(f"> {c['text']}")
+            st.divider()
+
+# 8. SPANISH INQUISITION
 elif view_choice == "⚔️ Spanish Inquisition":
     st.subheader("⚠️ ATTENTION TRAVELERS!")
     st.markdown("""
