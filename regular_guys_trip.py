@@ -8,61 +8,10 @@ st.set_page_config(
     page_title="National Parks Optimizer | Regular 39-Year-Old Guys June Expedition",
     page_icon="🌲",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="collapsed"
 )
 
-# --- NATIONAL PARK COLOR SCHEME & STYLING ---
-st.markdown("""
-    <style>
-    :root {
-        --pine-dark: #1E3F20;
-        --moss-green: #3B5E3C;
-        --canyon-rust: #B85D19;
-        --sandstone: #F9F6F0;
-        --granite-gray: #4A5568;
-    }
-    
-    .stApp {
-        background-color: #F8F9F7;
-        color: #2D3748;
-    }
-    
-    h1, h2, h3, h4 {
-        color: #1E3F20 !important;
-        font-family: 'Georgia', serif;
-    }
-    
-    .metric-card {
-        background-color: #FFFFFF;
-        border-left: 5px solid #3B5E3C;
-        padding: 18px;
-        border-radius: 8px;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-        margin-bottom: 14px;
-    }
-
-    .info-callout {
-        background-color: #FFFFFF;
-        border-left: 4px solid #B85D19;
-        padding: 16px 20px;
-        border-radius: 6px;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        margin-bottom: 18px;
-        line-height: 1.6;
-    }
-
-    .risk-card {
-        background-color: #FFFFFF;
-        border-top: 3px solid #B85D19;
-        padding: 16px;
-        border-radius: 6px;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        margin-bottom: 12px;
-    }
-    </style>
-""", unsafe_allow_html=True)
-
-# --- IMAGE CONSTANTS (VERIFIED SINGLE-LINE URLS) ---
+# --- IMAGE CONSTANTS ---
 IMG_SIDEBAR = "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=600&q=80"
 IMG_TETON_MAIN = "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=1200&q=80"
 IMG_GLACIER_MAIN = "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80"
@@ -102,7 +51,7 @@ PARK_DATA = {
         "gateway_lodge_prob": "High (80% inventory in Jackson, Wilson, or Teton Village)",
         "lodge_cost_night": 450,
         "camp_cost_night": 40,
-        "passes_entry": "America the Beautiful (\\$80/vehicle) or 7-Day Park Pass (\\$35).",
+        "passes_entry": "America the Beautiful ($80/vehicle) or 7-Day Park Pass ($35).",
         "timed_entry": "None required for vehicle entry.",
         "wildlife_score": 9.5,
         "scenery_score": 9.8,
@@ -130,7 +79,7 @@ PARK_DATA = {
                 "gain": 1120,
                 "vistas": "Glacial canyon walls, Hidden Falls, soaring crags, moose willow marshes.",
                 "can_overnight": True,
-                "backcountry_permit": "Grand Teton Wilderness Permit (\\$20 + \\$7/person/night). Bear canister required.",
+                "backcountry_permit": "Grand Teton Wilderness Permit ($20 + $7/person/night). Bear canister required.",
                 "img": IMG_TRAIL_1
             },
             {
@@ -165,8 +114,8 @@ PARK_DATA = {
         "gateway_lodge_prob": "Moderate-High (75% Columbia Falls, Whitefish, or Kalispell)",
         "lodge_cost_night": 480,
         "camp_cost_night": 30,
-        "passes_entry": "America the Beautiful (\\$80/vehicle) or 7-Day Pass (\\$35).",
-        "timed_entry": "3-hr parking limit at Logan Pass; reserved GTSR express shuttle recommended (\\$1/person).",
+        "passes_entry": "America the Beautiful ($80/vehicle) or 7-Day Pass ($35).",
+        "timed_entry": "3-hr parking limit at Logan Pass; reserved GTSR express shuttle recommended ($1/person).",
         "wildlife_score": 9.8,
         "scenery_score": 9.9,
         "june_viability": 7.0,
@@ -203,7 +152,7 @@ PARK_DATA = {
                 "gain": 850,
                 "vistas": "Cliff-shelf ridge above Going-to-the-Sun Road. Subject to snow clearance.",
                 "can_overnight": True,
-                "backcountry_permit": "Overnight option to Granite Park Chalet/Campground (\\$10 fee + \\$7/person/night).",
+                "backcountry_permit": "Overnight option to Granite Park Chalet/Campground ($10 fee + $7/person/night).",
                 "img": IMG_TRAIL_5
             },
             {
@@ -228,8 +177,8 @@ PARK_DATA = {
         "gateway_lodge_prob": "Very High (90% abundant hotels/condos in Springdale, Rockville, and Virgin)",
         "lodge_cost_night": 360,
         "camp_cost_night": 35,
-        "passes_entry": "America the Beautiful (\\$80/vehicle) or 7-Day Pass (\\$35).",
-        "timed_entry": "Angels Landing day lottery (\\$6 entry + \\$3/person) needed only past Scout Lookout.",
+        "passes_entry": "America the Beautiful ($80/vehicle) or 7-Day Pass ($35).",
+        "timed_entry": "Angels Landing day lottery ($6 entry + $3/person) needed only past Scout Lookout.",
         "wildlife_score": 6.5,
         "scenery_score": 9.4,
         "june_viability": 9.5,
@@ -291,7 +240,7 @@ PARK_DATA = {
         "gateway_lodge_prob": "High (85% Healy, Cantwell, or McKinley Park)",
         "lodge_cost_night": 380,
         "camp_cost_night": 30,
-        "passes_entry": "America the Beautiful (\\$80) or \\$15/person individual entrance fee.",
+        "passes_entry": "America the Beautiful ($80) or $15/person individual entrance fee.",
         "timed_entry": "Transit bus ticket required past Mile 15.",
         "wildlife_score": 9.9,
         "scenery_score": 9.6,
@@ -402,7 +351,7 @@ PARK_DATA = {
                 "gain": 650,
                 "vistas": "Coastal rainforest path along Resurrection Bay to cobblestone beach flats.",
                 "can_overnight": True,
-                "backcountry_permit": "Overnight beach camping available at Tonsina (\\$15/night state park fee).",
+                "backcountry_permit": "Overnight beach camping available at Tonsina ($15/night state park fee).",
                 "img": IMG_TRAIL_12
             }
         ]
@@ -417,7 +366,7 @@ PARK_DATA = {
         "gateway_lodge_prob": "High (85% ample motel, VRBO, and cabin supply in Port Angeles and Forks)",
         "lodge_cost_night": 320,
         "camp_cost_night": 25,
-        "passes_entry": "America the Beautiful (\\$80/vehicle) or 7-Day Pass (\\$35).",
+        "passes_entry": "America the Beautiful ($80/vehicle) or 7-Day Pass ($35).",
         "timed_entry": "None. Arrive at Hoh Rain Forest before 8:30 AM to beat long vehicle gate lines.",
         "wildlife_score": 8.2,
         "scenery_score": 9.1,
@@ -445,7 +394,7 @@ PARK_DATA = {
                 "gain": 300,
                 "vistas": "Old-growth moss canopies, Roosevelt elk habitat, flat trail beside the glacial river.",
                 "can_overnight": True,
-                "backcountry_permit": "Wilderness Camping Permit (\\$8/person/night + \\$6 reservation fee).",
+                "backcountry_permit": "Wilderness Camping Permit ($8/person/night + $6 reservation fee).",
                 "img": IMG_TRAIL_13
             },
             {
@@ -480,8 +429,8 @@ PARK_DATA = {
         "gateway_lodge_prob": "Moderate (65% mountain cabins in Ashford, Packwood, and Crystal Mountain)",
         "lodge_cost_night": 340,
         "camp_cost_night": 25,
-        "passes_entry": "America the Beautiful (\\$80/vehicle) or 7-Day Pass (\\$35).",
-        "timed_entry": "Timed entry corridor reservations (\\$2) enforced for Paradise/Sunrise 7 AM - 3 PM.",
+        "passes_entry": "America the Beautiful ($80/vehicle) or 7-Day Pass ($35).",
+        "timed_entry": "Timed entry corridor reservations ($2) enforced for Paradise/Sunrise 7 AM - 3 PM.",
         "wildlife_score": 8.4,
         "scenery_score": 9.5,
         "june_viability": 7.5,
@@ -606,8 +555,8 @@ PARK_DATA = {
         "gateway_lodge_prob": "Moderate (60% hotels/Airbnbs in El Portal, Mariposa, Groveland, or Oakhurst)",
         "lodge_cost_night": 480,
         "camp_cost_night": 36,
-        "passes_entry": "America the Beautiful (\\$80/vehicle) or 7-Day Pass (\\$35).",
-        "timed_entry": "Peak-hours vehicle reservation (\\$2) required on June weekends and holidays.",
+        "passes_entry": "America the Beautiful ($80/vehicle) or 7-Day Pass ($35).",
+        "timed_entry": "Peak-hours vehicle reservation ($2) required on June weekends and holidays.",
         "wildlife_score": 8.0,
         "scenery_score": 9.8,
         "june_viability": 9.1,
@@ -669,8 +618,8 @@ PARK_DATA = {
         "gateway_lodge_prob": "Very High (90% deep vacation rental inventory in Estes Park and Grand Lake)",
         "lodge_cost_night": 400,
         "camp_cost_night": 35,
-        "passes_entry": "America the Beautiful (\\$80/vehicle) or 7-Day Pass (\\$35).",
-        "timed_entry": "Timed Entry+ Bear Lake Road (\\$2 via Recreation.gov) required 5 AM - 6 PM.",
+        "passes_entry": "America the Beautiful ($80/vehicle) or 7-Day Pass ($35).",
+        "timed_entry": "Timed Entry+ Bear Lake Road ($2 via Recreation.gov) required 5 AM - 6 PM.",
         "wildlife_score": 8.7,
         "scenery_score": 9.2,
         "june_viability": 8.4,
@@ -707,7 +656,7 @@ PARK_DATA = {
                 "gain": 1780,
                 "vistas": "Timberline waterfall headwall scramble up to soaring granite spires (Sharkstooth).",
                 "can_overnight": True,
-                "backcountry_permit": "RMNP Wilderness Permit (\\$36 flat fee via Recreation.gov). Bear canister mandatory.",
+                "backcountry_permit": "RMNP Wilderness Permit ($36 flat fee via Recreation.gov). Bear canister mandatory.",
                 "img": IMG_TRAIL_3
             },
             {
@@ -726,9 +675,9 @@ PARK_DATA = {
 
 # --- STATISTICAL ENGINE ---
 def compute_complete_costs(park_dict, split_mode):
-    if split_mode == "All Lodge (7 nights)":
+    if "All Lodge" in split_mode:
         lodging_total = park_dict["lodge_cost_night"] * 7
-    elif split_mode == "All Tent Camping (7 nights)":
+    elif "All Tent" in split_mode:
         lodging_total = park_dict["camp_cost_night"] * 7
     else:  # 50/50 Split
         lodging_total = (park_dict["camp_cost_night"] * 3) + (park_dict["lodge_cost_night"] * 4)
@@ -769,7 +718,7 @@ with st.sidebar:
     *Window:* Saturday Arrival to Sunday Departure (7 Nights).
     """)
     st.markdown("---")
-    st.caption("All multi-criteria weights and lodging selections are configured directly on the main page.")
+    st.caption("All multi-criteria weights and lodging selections are configured on the main page.")
 
 # --- APP HEADER & VERBOSE APP DESCRIPTION ---
 st.title("🌲 National Park Expedition, Safety & Logistics Optimizer")
@@ -786,25 +735,21 @@ This application acts as a comprehensive decision matrix. It models:
 
 st.markdown("---")
 
-# --- MAIN PAGE CONTROLS: LODGING STRATEGY & WEIGHT CRITERIA (MOBILE RESPONSIVE) ---
+# --- MAIN PAGE CONTROLS (UN-NESTED TO GUARANTEE MOBILE RENDERING) ---
 st.subheader("⚙️ 1. Trip Strategy & Optimization Controls")
-st.markdown("""
-Adjust the crew's accommodation model and scoring priorities below. 
-The master rankings table, financial calculations, and charts update immediately.
-""")
+st.markdown("Adjust the crew's accommodation model and scoring priorities below. Everything recalculates instantly.")
 
-# ACCOMMODATION MODEL (Full width for mobile touch targets)
+# Accommodations Model (Vertical radio prevents mobile button distortion)
 st.markdown("#### Accommodations Model")
 split_strategy = st.radio(
     "Select Lodging Allocation:",
     [
-        "50/50 Split (3N Tent / 4N Lodge)",
-        "All Lodge (7 nights)",
-        "All Tent Camping (7 nights)"
+        "50/50 Split (3 Nights Tent / 4 Nights Lodge)",
+        "All Lodge (7 Nights in Cabin / Lodge)",
+        "All Tent Camping (7 Nights in Tent Campsite)"
     ],
     index=0,
-    horizontal=True,
-    help="50/50 split allocates Sat-Tue nights to tents and Wed-Sun nights to a gateway lodge/cabin."
+    horizontal=False
 )
 
 st.caption("""
@@ -815,23 +760,16 @@ st.caption("""
 
 st.markdown("---")
 
-# MULTI-CRITERIA SLIDERS (Flat root-level columns that wrap cleanly on mobile viewports)
+# Multi-Criteria Sliders (Standard stacked widgets prevent slider collapse on mobile)
 st.markdown("#### Multi-Criteria Scoring Weights")
-st.caption("Adjust sliders (0.0 = Ignore, 1.0 = Max Priority). On mobile screens, these will stack cleanly:")
+st.caption("Adjust sliders (0.0 = Ignore, 1.0 = Maximum Priority):")
 
-col_w1, col_w2, col_w3 = st.columns(3)
-
-with col_w1:
-    w_cost = st.slider("Cost Efficiency / Low Budget", 0.0, 1.0, 0.25, 0.05, key="w_cost")
-    w_drive = st.slider("Airport Proximity (Low Drive)", 0.0, 1.0, 0.15, 0.05, key="w_drive")
-
-with col_w2:
-    w_scenery = st.slider("Scenery & Alpine Grandeur", 0.0, 1.0, 0.25, 0.05, key="w_scenery")
-    w_june = st.slider("June Trail Viability (Snow-Free)", 0.0, 1.0, 0.15, 0.05, key="w_june")
-
-with col_w3:
-    w_weather = st.slider("Mild Temps & Clear Skies", 0.0, 1.0, 0.10, 0.05, key="w_weather")
-    w_safety = st.slider("Wildlife Safety (Low Risk)", 0.0, 1.0, 0.10, 0.05, key="w_safety")
+w_cost = st.slider("Cost Efficiency / Low Budget", 0.0, 1.0, 0.25, 0.05, key="w_cost")
+w_drive = st.slider("Airport Proximity (Low Drive Time)", 0.0, 1.0, 0.15, 0.05, key="w_drive")
+w_scenery = st.slider("Scenery & Alpine Grandeur", 0.0, 1.0, 0.25, 0.05, key="w_scenery")
+w_june = st.slider("June Trail Viability (Snow-Free)", 0.0, 1.0, 0.15, 0.05, key="w_june")
+w_weather = st.slider("Mild Temps & Clear Skies (Fewer Clouds)", 0.0, 1.0, 0.10, 0.05, key="w_weather")
+w_safety = st.slider("Wildlife Safety (Low Bear/Moose Peril)", 0.0, 1.0, 0.10, 0.05, key="w_safety")
 
 st.markdown("---")
 
@@ -900,11 +838,9 @@ st.dataframe(
 
 st.markdown("---")
 
-# --- DETAIL INSPECTOR ---
+# --- DETAIL INSPECTOR (RELIABLE VIEW SELECTOR INSTEAD OF COLLAPSIBLE TABS) ---
 st.subheader("🔍 3. Comprehensive Destination Deep Dive")
-col_sel, _ = st.columns([2, 1])
-with col_sel:
-    selected_park = st.selectbox("Select a National Park to examine its full operational package:", df_rankings["Park"])
+selected_park = st.selectbox("Select a National Park to examine its full operational package:", df_rankings["Park"])
 
 park = PARK_DATA[selected_park]
 costs, tot_cost, mean_cost, fl_skew, shared_guy, lodging_tot = compute_complete_costs(park, split_strategy)
@@ -913,24 +849,31 @@ cur_score = df_rankings.loc[df_rankings["Park"] == selected_park, "Overall Score
 # Banner Image
 st.image(park["banner_img"], caption=f"{selected_park} National Park — {park['state']}", use_container_width=True)
 
-# --- DETAILED TABS (INCLUDING SPANISH INQUISITION) ---
-tab_logistics, tab_wildlife, tab_weather, tab_lodging, tab_flights, tab_hikes, tab_inquisition = st.tabs([
-    "Overview & Logistics",
-    "Wildlife Risk (Bear & Moose)",
-    "Weather Perils & Climate",
-    "Lodging Strategy & Passes",
-    "Cost & Skewness",
-    "Curated 3-Hike Package",
-    "Spanish Inquisition"
-])
+# Section view selector (100% reliable across all smartphone browsers)
+st.markdown("#### Choose Inspection Category:")
+view_choice = st.radio(
+    "Select Topic to View:",
+    [
+        "📋 Overview & Logistics",
+        "🐻 Wildlife Risk (Bear & Moose)",
+        "⛅ Weather Perils & Climate",
+        "🏕️ Lodging Strategy & Passes",
+        "✈️ Cost Distribution & Skewness",
+        "🥾 Curated 3-Hike Package",
+        "⚔️ Spanish Inquisition"
+    ],
+    index=0
+)
+
+st.markdown("---")
 
 # 1. OVERVIEW & LOGISTICS
-with tab_logistics:
-    col1, col2, col3, col4 = st.columns(4)
-    col1.metric("Overall Weighted Score", f"{cur_score} / 10")
-    col2.metric("Airport Drive Time", f"{park['drive_hrs']} hrs")
-    col3.metric("Scenery / Hike Grandeur", f"{park['scenery_score']} / 10")
-    col4.metric("June Trail Viability", f"{park['june_viability']} / 10")
+if view_choice == "📋 Overview & Logistics":
+    st.markdown(f"### Overview & Logistics: {selected_park}")
+    st.write(f"**Overall Weighted Score:** `{cur_score} / 10`")
+    st.write(f"**Airport Drive Time:** `{park['drive_hrs']} hours`")
+    st.write(f"**Scenery / Hike Grandeur:** `{park['scenery_score']} / 10`")
+    st.write(f"**June Trail Viability:** `{park['june_viability']} / 10`")
 
     st.markdown(f"""
     <div class="info-callout">
@@ -942,8 +885,8 @@ with tab_logistics:
     """, unsafe_allow_html=True)
 
 # 2. WILDLIFE RISK
-with tab_wildlife:
-    st.subheader("Wildlife Risk Profile: Bear & Moose Confrontation Dynamics")
+elif view_choice == "🐻 Wildlife Risk (Bear & Moose)":
+    st.markdown(f"### Wildlife Risk: {selected_park}")
     st.markdown("""
     When five regular 39-year-old guys head into the wilderness, wildlife encounters are both a premier attraction and an objective safety hazard.
     In **June**, two biological phenomena peak simultaneously:
@@ -951,28 +894,18 @@ with tab_wildlife:
     2. **Cow moose** give birth in dense riverbank willow thickets and will aggressively charge intruders who stumble into their nursery corridors.
     """)
 
-    col_w1, col_w2 = st.columns(2)
-    with col_w1:
-        st.markdown(f"""
-        <div class="risk-card">
-            <h4>🐻 Bear Conflict Assessment</h4>
-            <p><b>Risk Classification:</b> <code>{park['wildlife_risk']['bear_tier']}</code></p>
-            <p><b>Estimated Attack / Charge Probability:</b><br>
-            <code>{park['wildlife_risk']['bear_attack_prob']}</code></p>
-            <p><i>Context:</i> True predatory attacks are vanishingly rare, but surprise defensive charges by protective mothers represent the primary June hazard on narrow trails.</p>
-        </div>
-        """, unsafe_allow_html=True)
-
-    with col_w2:
-        st.markdown(f"""
-        <div class="risk-card">
-            <h4>🫎 Moose Conflict Assessment</h4>
-            <p><b>Risk Classification:</b> <code>{park['wildlife_risk']['moose_tier']}</code></p>
-            <p><b>Estimated Confrontation / Charge Probability:</b><br>
-            <code>{park['wildlife_risk']['moose_attack_prob']}</code></p>
-            <p><i>Context:</i> Moose injure more hikers annually in the Rocky Mountains and Alaska than bears. Unlike bears, moose do not bluff charge when calves are nearby—they charge to stomp.</p>
-        </div>
-        """, unsafe_allow_html=True)
+    st.markdown(f"""
+    <div class="risk-card">
+        <h4>🐻 Bear Conflict Assessment</h4>
+        <p><b>Risk Classification:</b> <code>{park['wildlife_risk']['bear_tier']}</code></p>
+        <p><b>Estimated Attack / Charge Probability:</b> <code>{park['wildlife_risk']['bear_attack_prob']}</code></p>
+    </div>
+    <div class="risk-card">
+        <h4>🫎 Moose Conflict Assessment</h4>
+        <p><b>Risk Classification:</b> <code>{park['wildlife_risk']['moose_tier']}</code></p>
+        <p><b>Estimated Confrontation / Charge Probability:</b> <code>{park['wildlife_risk']['moose_attack_prob']}</code></p>
+    </div>
+    """, unsafe_allow_html=True)
 
     st.markdown(f"""
     <div class="info-callout">
@@ -983,191 +916,109 @@ with tab_wildlife:
     """, unsafe_allow_html=True)
 
 # 3. WEATHER PERILS & CLIMATE
-with tab_weather:
-    st.subheader("Climatological Viability: Thermal Comfort & Mountain Perils")
-    st.markdown("""
-    June mountain weather is notoriously fickle. The ideal window for regular 39-year-old guys hiking 6 to 10 miles with 1,000+ feet of elevation gain is **moderate temperatures (60°F–78°F)** with low humidity and **clear or low-cloud skies** to ensure panoramic views from the summits.
-    """)
+elif view_choice == "⛅ Weather Perils & Climate":
+    st.markdown(f"### Weather Perils & Climate: {selected_park}")
+    st.markdown("June mountain weather can shift rapidly. Review temperature ranges and convective perils below:")
 
-    col_wt1, col_wt2 = st.columns(2)
-    with col_wt1:
-        st.markdown("#### Favorable Hiking Climate")
-        st.write(f"**Moderate Temps (60°F–78°F Highs):** `{park['weather_profile']['p_moderate_temp']}`")
-        st.caption("The sweet spot for physical exertion without heat exhaustion or heavy arctic thermal layering.")
-        st.write(f"**Clear / Few Clouds (Bluebird Day Odds):** `{park['weather_profile']['p_clear_skies']}`")
-        st.caption("The probability that the peaks, cirques, and glacial lakes won't be socked in by thick cloud decks.")
-
-    with col_wt2:
-        st.markdown("#### Severe Weather Perils")
-        st.write(f"**Convective Thunderstorms & Lightning:** `{park['weather_profile']['peril_thunderstorms']}`")
-        st.caption("Common afternoon peril on exposed ridges. Standard rule: be off alpine summits by 12:30 PM.")
-        st.write(f"**Hypothermia & Sudden Cold Snaps:** `{park['weather_profile']['peril_hypothermia']}`")
-        st.caption("June Pacific storm fronts can rapidly drop ambient temperatures from 70°F to 35°F with soaking sleet.")
-        st.write(f"**Excessive Heat Hazard (>95°F):** `{park['weather_profile']['peril_excessive_heat']}`")
-        st.caption("Critical factor in desert canyons like Zion; requires dawn departures and carrying 4+ liters of water per man.")
+    st.write(f"**Moderate Temps (60°F–78°F Highs):** `{park['weather_profile']['p_moderate_temp']}`")
+    st.write(f"**Clear / Few Clouds (Bluebird Day Odds):** `{park['weather_profile']['p_clear_skies']}`")
+    st.write(f"**Convective Thunderstorms & Lightning:** `{park['weather_profile']['peril_thunderstorms']}`")
+    st.write(f"**Hypothermia & Sudden Cold Snaps:** `{park['weather_profile']['peril_hypothermia']}`")
+    st.write(f"**Excessive Heat Hazard (>95°F):** `{park['weather_profile']['peril_excessive_heat']}`")
 
 # 4. LODGING STRATEGY & PASSES
-with tab_lodging:
-    st.subheader("Lodging Logistics, Gate Permits & The 50/50 Strategy")
+elif view_choice == "🏕️ Lodging Strategy & Passes":
+    st.markdown(f"### Lodging Strategy & Passes: {selected_park}")
+    st.write(f"**In-Park Historic Lodge Odds:** `{park['in_park_lodge_prob']}`")
+    st.write(f"**Gateway Community Lodges / Condos / Airbnbs:** `{park['gateway_lodge_prob']}`")
+    st.write(f"**Est. Nightly Cabin / Lodge (5 Guys):** `${park['lodge_cost_night']} / night`")
+    st.write(f"**Est. Nightly Frontcountry Campsite:** `${park['camp_cost_night']} / night`")
+    st.write(f"**Park Vehicle Entrance Pass:** {park['passes_entry']}")
+    st.write(f"**Timed-Entry / Corridor Mandates:** {park['timed_entry']}")
 
-    col_l1, col_l2 = st.columns(2)
-    with col_l1:
-        st.markdown("#### June Lodging Availability Reality")
-        st.write(f"**In-Park Historic Lodge Odds:** `{park['in_park_lodge_prob']}`")
-        st.caption("In-park lodges typically operate on rolling 12-month advance windows and book out almost instantly.")
-        st.write(f"**Gateway Community Lodges / Condos / Airbnbs:** `{park['gateway_lodge_prob']}`")
-        st.caption("Towns adjacent to the park gates offer significantly higher inventory for a 5-person group.")
-        st.write(f"**Est. Nightly Cabin / Lodge (5 Guys):** \\${park['lodge_cost_night']} / night")
-        st.write(f"**Est. Nightly Frontcountry Campsite:** \\${park['camp_cost_night']} / night")
-
-    with col_l2:
-        st.markdown("#### Passes, Vehicle Fees & Timed-Entry Mandates")
-        st.write(f"**Park Vehicle Entrance Pass:** {park['passes_entry']}")
-        st.caption("A single vehicle pass covers all 5 guys in your shared SUV rental.")
-        st.write(f"**Timed-Entry / Corridor Mandates:** {park['timed_entry']}")
-        st.caption("Must be secured via Recreation.gov well in advance to prevent being turned away at park checkpoints.")
-
-    st.divider()
-    st.markdown("#### The 50/50 Split Model: The Optimum Strategy for 39-Year-Old Guys")
     st.markdown(f"""
-    Camping in a tent for seven consecutive nights while logging strenuous daily mountain hikes can take a toll on sleep quality and recovery. Conversely, staying in an expensive lodge for seven straight nights can strain the group budget. 
-    
-    The **50/50 Split Model** balances adventure with recovery:
-    * **Phase 1 (Saturday to Tuesday | 3 Nights in Tents):** Arrive Saturday, pick up the rental SUV, buy groceries, and establish a frontcountry base camp (\\${park['camp_cost_night']}/night). Cook steaks over the campfire and tackle the initial acclimatization hikes while energy is high.
-    * **Phase 2 (Wednesday to Sunday | 4 Nights in a Cabin/Lodge):** On Wednesday afternoon, check into a shared vacation rental or gateway lodge (\\${park['lodge_cost_night']}/night). Enjoy hot showers, real mattresses, laundry facilities for sweaty gear, a full kitchen, and restorative sleep before the biggest summit push of the week.
-    * **Total 7-Night Accommodations Outlay for 5 Guys:** **\\${lodging_tot:,.0f}** (Only **\\${lodging_tot/5:,.0f}** per man!).
-    """)
-
-# 5. FLIGHTS & SKEWNESS
-with tab_flights:
-    st.subheader("Financial Breakdown, Airfare Equity & Skewness Analysis")
-    st.markdown("""
-    Because the crew originates from three different geographic hubs, travel costs will not be identical. 
-    We model the collective financial outlay and calculate **Pearson's Sample Skewness** on flight prices to ensure the group remains mindful of cost distribution.
-    """)
-
-    col_s1, col_s2, col_s3 = st.columns(3)
-    col_s1.metric("Total Group Spend (All 5)", f"${tot_cost:,.0f}")
-    col_s2.metric("Mean Outlay Per Guy", f"${mean_cost:,.0f}")
-    col_s3.metric("Flight Cost Skewness", f"{fl_skew:+.2f}")
-
-    st.markdown("""
     <div class="info-callout">
-        <b>How to Read the Flight Skewness Metric:</b>
-        <ul>
-            <li><b>Positive Skew (> +0.50):</b> Highly right-skewed. The traveler departing from <b>Columbia, MO (COU)</b> pays significantly more than the guys flying out of major hubs like Chicago (ORD) or driving/flying locally from Seattle (SEA). Groups often use this metric to split the rental car or lodging unevenly to offset the solo connector's burden.</li>
-            <li><b>Near Zero (-0.50 to +0.50):</b> Relatively symmetric. Airfare pricing across SEA, ORD, and COU is balanced and equitable.</li>
-            <li><b>Negative Skew (< -0.50):</b> Left-skewed. The majority of travelers pay on the higher end while one or two pay significantly less (such as Washington state parks for the Seattleites).</li>
-        </ul>
+        <h4>The 50/50 Split Model: Total Spend for 5 Guys = ${lodging_tot:,.0f} (${lodging_tot/5:,.0f}/person)</h4>
+        <p><b>Phase 1 (Sat-Tue | 3 Nights Tents):</b> Frontcountry campground base camp at ${park['camp_cost_night']}/night.</p>
+        <p><b>Phase 2 (Wed-Sun | 4 Nights Lodge):</b> Gateway vacation rental or lodge at ${park['lodge_cost_night']}/night with full beds, hot showers, and laundry.</p>
     </div>
     """, unsafe_allow_html=True)
 
+# 5. FLIGHTS & SKEWNESS
+elif view_choice == "✈️ Cost Distribution & Skewness":
+    st.markdown(f"### Flight Costs & Group Equity: {selected_park}")
+    st.write(f"**Total Group Spend (All 5 Travelers):** `${tot_cost:,.0f}`")
+    st.write(f"**Mean Outlay Per Guy:** `${mean_cost:,.0f}`")
+    st.write(f"**Flight Cost Skewness:** `{fl_skew:+.2f}`")
+
+    st.caption("Positive skew (> +0.50) indicates the Columbia, MO traveler carries a higher regional connector airfare burden.")
+
     fin_table = [
-        {"Traveler / Origin": "Seattle, WA #1", "Airfare": f"${park['flights']['SEA']}", "Car + Lodging Share": f"${shared_guy:,.0f}", "Total Out-of-Pocket": f"${costs[0]:,.0f}"},
-        {"Traveler / Origin": "Seattle, WA #2", "Airfare": f"${park['flights']['SEA']}", "Car + Lodging Share": f"${shared_guy:,.0f}", "Total Out-of-Pocket": f"${costs[1]:,.0f}"},
-        {"Traveler / Origin": "Chicago, IL #1", "Airfare": f"${park['flights']['ORD']}", "Car + Lodging Share": f"${shared_guy:,.0f}", "Total Out-of-Pocket": f"${costs[2]:,.0f}"},
-        {"Traveler / Origin": "Chicago, IL #2", "Airfare": f"${park['flights']['ORD']}", "Car + Lodging Share": f"${shared_guy:,.0f}", "Total Out-of-Pocket": f"${costs[3]:,.0f}"},
-        {"Traveler / Origin": "Columbia, MO #1", "Airfare": f"${park['flights']['COU']}", "Car + Lodging Share": f"${shared_guy:,.0f}", "Total Out-of-Pocket": f"${costs[4]:,.0f}"},
+        {"Traveler / Origin": "Seattle, WA #1", "Airfare": f"${park['flights']['SEA']}", "Car + Lodging Share": f"${shared_guy:,.0f}", "Total Net Spend": f"${costs[0]:,.0f}"},
+        {"Traveler / Origin": "Seattle, WA #2", "Airfare": f"${park['flights']['SEA']}", "Car + Lodging Share": f"${shared_guy:,.0f}", "Total Net Spend": f"${costs[1]:,.0f}"},
+        {"Traveler / Origin": "Chicago, IL #1", "Airfare": f"${park['flights']['ORD']}", "Car + Lodging Share": f"${shared_guy:,.0f}", "Total Net Spend": f"${costs[2]:,.0f}"},
+        {"Traveler / Origin": "Chicago, IL #2", "Airfare": f"${park['flights']['ORD']}", "Car + Lodging Share": f"${shared_guy:,.0f}", "Total Net Spend": f"${costs[3]:,.0f}"},
+        {"Traveler / Origin": "Columbia, MO #1", "Airfare": f"${park['flights']['COU']}", "Car + Lodging Share": f"${shared_guy:,.0f}", "Total Net Spend": f"${costs[4]:,.0f}"},
     ]
     st.table(pd.DataFrame(fin_table))
 
 # 6. HIKES
-with tab_hikes:
-    st.subheader("Curated 3-Hike Package (Saturday Arrival to Sunday Departure)")
-    st.markdown("""
-    These three routes are designed specifically for active, regular 39-year-olds. They are sequenced across the week to factor in airport drive recovery, gradual elevation acclimation, and an ambitious summit push.
-    
-    *All three hikes are designed as vigorous day treks (carrying daypacks with water, lunch, and layers)*, but routes marked **Backpack Overnight Available** can optionally be converted into a 1-to-2 night wilderness loop if the crew wants backcountry trail camping.
-    """)
-
+elif view_choice == "🥾 Curated 3-Hike Package":
+    st.markdown(f"### Curated 3-Hike Package: {selected_park}")
     for i, hike in enumerate(park["hikes"], 1):
-        with st.container():
-            c_img, c_body = st.columns([1, 2])
-            with c_img:
-                st.image(hike["img"], use_container_width=True)
-            with c_body:
-                st.markdown(f"#### Hike {i}: {hike['name']}")
-                st.markdown(f"**Scheduled Timing:** `{hike['day']}` &nbsp;|&nbsp; **Distance:** `{hike['miles']} miles round-trip` &nbsp;|&nbsp; **Elevation Gain:** `{hike['gain']} vertical ft`")
-                st.write(f"**Vistas & Highlights:** {hike['vistas']}")
+        st.markdown(f"#### Hike {i}: {hike['name']}")
+        st.image(hike["img"], use_container_width=True)
+        st.write(f"**Day:** `{hike['day']}` | **Distance:** `{hike['miles']} miles` | **Gain:** `{hike['gain']} ft`")
+        st.write(f"**Vistas & Highlights:** {hike['vistas']}")
+        if hike["can_overnight"]:
+            st.success(f"⛺ Overnight Available: {hike['backcountry_permit']}")
+        else:
+            st.info(f"🥾 Format: {hike['backcountry_permit']}")
+        st.divider()
 
-                if hike["can_overnight"]:
-                    st.success(f"⛺ **Backpack Overnight Option Available:** {hike['backcountry_permit']}")
-                else:
-                    st.info(f"🥾 **Format:** {hike['backcountry_permit']}")
-            st.divider()
-
-# 7. SPANISH INQUISITION TAB (MONTY PYTHON EASTER EGG)
-with tab_inquisition:
+# 7. SPANISH INQUISITION
+elif view_choice == "⚔️ Spanish Inquisition":
     st.subheader("⚠️ ATTENTION TRAVELERS!")
     st.markdown("""
-    <h2 style='color: #B85D19 !important; text-align: center; margin-bottom: 20px;'>
+    <h2 style='color: #B85D19 !important; text-align: center;'>
         NOBODY EXPECTS THE SPANISH INQUISITION!
     </h2>
     """, unsafe_allow_html=True)
-    
-    col_py1, col_py2, col_py3 = st.columns([1, 3, 1])
-    with col_py2:
-        svg_cartoon = """
-        <div style="display: flex; justify-content: center; margin-bottom: 16px;">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 450" width="100%" height="auto" style="border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.25); background: #2B1810;">
-            <rect width="700" height="450" fill="#2B1810"/>
-            <rect x="0" y="320" width="700" height="130" fill="#1C100B"/>
-            <path d="M120 0 L120 450 M350 0 L350 450 M580 0 L580 450" stroke="#3D2418" stroke-width="3"/>
 
-            <g transform="translate(100, 110)">
-                <path d="M-50 240 L-20 60 L40 60 L70 240 Z" fill="#B31B1B"/>
-                <path d="M-10 60 L10 120 L30 60 Z" fill="#801111"/>
-                <circle cx="10" cy="20" r="30" fill="#FAD02C"/>
-                <path d="M-20 15 Q10 -15 40 15 L42 28 Q10 0 -22 28 Z" fill="#4A2E18"/>
-                <circle cx="-3" cy="20" r="10" fill="#333" stroke="#D4AF37" stroke-width="3"/>
-                <circle cx="23" cy="20" r="10" fill="#333" stroke="#D4AF37" stroke-width="3"/>
-                <circle cx="-3" cy="20" r="5" fill="#87CEEB"/>
-                <circle cx="23" cy="20" r="5" fill="#87CEEB"/>
-                <path d="M-2 40 Q10 50 22 40" stroke="#000" stroke-width="3" fill="none"/>
-            </g>
-
-            <g transform="translate(500, 110)">
-                <path d="M-50 240 L-20 60 L40 60 L70 240 Z" fill="#B31B1B"/>
-                <circle cx="10" cy="20" r="30" fill="#F5CBA7"/>
-                <ellipse cx="10" cy="0" rx="45" ry="12" fill="#801111"/>
-                <path d="M-15 0 Q10 -25 35 0 Z" fill="#991515"/>
-                <circle cx="-2" cy="18" r="6" fill="#FFF"/><circle cx="-2" cy="18" r="3" fill="#000"/>
-                <circle cx="22" cy="18" r="6" fill="#FFF"/><circle cx="22" cy="18" r="3" fill="#000"/>
-                <ellipse cx="10" cy="36" rx="8" ry="10" fill="#000"/>
-            </g>
-
-            <g transform="translate(300, 70)">
-                <path d="M-65 280 L-30 65 L80 65 L115 280 Z" fill="#D32F2F"/>
-                <path d="M0 65 L25 150 L50 65 Z" fill="#9A0007"/>
-                <path d="M25 140 L25 190 M15 155 L35 155" stroke="#FFD700" stroke-width="4"/>
-                <circle cx="25" cy="20" r="35" fill="#FAD02C"/>
-                <ellipse cx="25" cy="-8" rx="85" ry="20" fill="#9A0007"/>
-                <path d="M-25 -8 Q25 -50 75 -8 Z" fill="#D32F2F"/>
-                <path d="M5 8 L20 16 M45 8 L30 16" stroke="#000" stroke-width="4"/>
-                <circle cx="12" cy="20" r="5" fill="#FFF"/><circle cx="13" cy="20" r="2.5" fill="#000"/>
-                <circle cx="38" cy="20" r="5" fill="#FFF"/><circle cx="37" cy="20" r="2.5" fill="#000"/>
-                <path d="M5 32 Q25 25 45 32 Q25 42 5 32 Z" fill="#2E1805"/>
-                <path d="M12 36 Q25 58 38 36 Z" fill="#670000"/>
-                <path d="M-25 90 L-80 50 L-130 50" stroke="#D32F2F" stroke-width="26" stroke-linecap="round"/>
-                <circle cx="-135" cy="50" r="14" fill="#FAD02C"/>
-                <path d="M-135 50 L-175 50" stroke="#FAD02C" stroke-width="8" stroke-linecap="round"/>
-            </g>
-
-            <g transform="rotate(-11 350 225)">
-                <rect x="25" y="195" width="650" height="74" fill="rgba(0,0,0,0.6)" rx="8"/>
-                <rect x="20" y="188" width="650" height="70" fill="#E65100" stroke="#FFD54F" stroke-width="4" rx="8"/>
-                <rect x="20" y="188" width="20" height="70" fill="#FFD54F"/>
-                <rect x="650" y="188" width="20" height="70" fill="#FFD54F"/>
-                <text x="345" y="235" font-family="'Impact', 'Arial Black', sans-serif" font-size="31" fill="#FFFFFF" text-anchor="middle" letter-spacing="2" stroke="#000000" stroke-width="1.5">
-                    THE ORIGINAL WAS COPYRIGHT PROTECTED
-                </text>
-            </g>
-        </svg>
-        </div>
-        """
-        st.markdown(svg_cartoon, unsafe_allow_html=True)
-
-        st.markdown("""
-        > *"Our chief weapon is surprise! Surprise and fear... fear and surprise... our two weapons are fear and surprise... and ruthless efficiency! Our three weapons are fear, surprise, and ruthless efficiency... and an almost fanatical devotion to the Pope!"*
-        """)
-        st.caption("Now that the cardinals have completed their audit, please return to selecting your national park.")
+    svg_cartoon = """
+    <div style="display: flex; justify-content: center; margin-bottom: 16px;">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 450" width="100%" height="auto" style="border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.25); background: #2B1810;">
+        <rect width="700" height="450" fill="#2B1810"/>
+        <rect x="0" y="320" width="700" height="130" fill="#1C100B"/>
+        <g transform="translate(100, 110)">
+            <path d="M-50 240 L-20 60 L40 60 L70 240 Z" fill="#B31B1B"/>
+            <circle cx="10" cy="20" r="30" fill="#FAD02C"/>
+            <path d="M-20 15 Q10 -15 40 15 L42 28 Q10 0 -22 28 Z" fill="#4A2E18"/>
+            <circle cx="-3" cy="20" r="10" fill="#333" stroke="#D4AF37" stroke-width="3"/>
+            <circle cx="23" cy="20" r="10" fill="#333" stroke="#D4AF37" stroke-width="3"/>
+        </g>
+        <g transform="translate(500, 110)">
+            <path d="M-50 240 L-20 60 L40 60 L70 240 Z" fill="#B31B1B"/>
+            <circle cx="10" cy="20" r="30" fill="#F5CBA7"/>
+            <ellipse cx="10" cy="0" rx="45" ry="12" fill="#801111"/>
+        </g>
+        <g transform="translate(300, 70)">
+            <path d="M-65 280 L-30 65 L80 65 L115 280 Z" fill="#D32F2F"/>
+            <circle cx="25" cy="20" r="35" fill="#FAD02C"/>
+            <ellipse cx="25" cy="-8" rx="85" ry="20" fill="#9A0007"/>
+            <path d="M-25 90 L-80 50 L-130 50" stroke="#D32F2F" stroke-width="26" stroke-linecap="round"/>
+        </g>
+        <g transform="rotate(-11 350 225)">
+            <rect x="20" y="188" width="650" height="70" fill="#E65100" stroke="#FFD54F" stroke-width="4" rx="8"/>
+            <text x="345" y="235" font-family="'Impact', 'Arial Black', sans-serif" font-size="28" fill="#FFFFFF" text-anchor="middle">
+                THE ORIGINAL WAS COPYRIGHT PROTECTED
+            </text>
+        </g>
+    </svg>
+    </div>
+    """
+    st.markdown(svg_cartoon, unsafe_allow_html=True)
+    st.markdown("""
+    > *"Our chief weapon is surprise! Surprise and fear... fear and surprise... our two weapons are fear and surprise... and ruthless efficiency!"*
+    """)
+    st.caption("Now that the cardinals have audited your itinerary, please return to selecting your national park.")
