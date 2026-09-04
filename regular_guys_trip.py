@@ -755,7 +755,7 @@ with st.sidebar:
 # --- APP HEADER & DESCRIPTION ---
 st.title("🌲 National Park Expedition & Consensus Engine")
 st.markdown("""
-### Purpose-Built Decision Engine for Just Regular 39-Year-Old Guys
+### Decision Engine for Just Regular 39-Year-Old Guys
 Planning an annual weeklong expedition for **five just regular 39-year-old guys** requires balancing ambitious alpine ambitions against cold logistical realities. The month of **June** is a dramatic transitional season across North America's premier wilderness corridors. At high elevations in the Rockies, North Cascades, and Pacific Northwest, winter snowpack is actively thawing, waterfalls are discharging at historic peak volumes, and alpine passes above 8,000–9,000 feet often demand microspikes or route pivots. Concurrently, wildlife emerges into lower river meadows: **grizzly sows forage with newborn cubs** and **cow moose fiercely defend newborn calves in willow thickets**.
 
 This application acts as a comprehensive decision matrix. It models:
@@ -1066,7 +1066,7 @@ elif view_choice == "🗳️ Crew Vote & Comments":
     st.caption("Leave thoughts on gear, reservations, flight bookings, or hiking routes.")
 
     with st.form("comment_form"):
-        new_comment = st.text_area("Add a comment:", placeholder="e.g., Flying into Kalispell is pricey for Columbia, but I'm down if we split lodging.")
+        new_comment = st.text_area("Add a comment:", placeholder="e.g., Getting mauled by a bear is rough, but I'm down if we split lodging.")
         comment_park = st.selectbox("Tag a Specific Park (Optional):", ["General / All Parks"] + all_parks)
         submit_comment = st.form_submit_button("Post Comment")
 
